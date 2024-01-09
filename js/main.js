@@ -571,19 +571,16 @@ function calculateResponsiveStrokeWidth() {
 	return responsiveStrokeWidth
 }
 function InterpolateVideo(videoToPause, videoToVanish, videoToPlay) {
-	console.log(videoToPause)
-	console.log(videoToVanish)
-	console.log(videoToPlay)
 	if (videoToPause) {
 		videoToPause.pause()
 	}
-
+	console.log('interpolate')
 	videoToVanish.classList.add('short-vanish')
 
 	videoToPlay.style.opacity = 1
 	setTimeout(() => {
 		videoToPlay.play()
-	}, 0)
+	}, 500)
 }
 
 // loop.currentTime = 60
@@ -932,13 +929,8 @@ function createContent(obj, parent) {
 	firstPage = document.createElement('div')
 	firstPage.classList.add('firstPage')
 
-	// textContent = document.createElement('div')
-	// textContent.classList.add('text')
-	// console.log(pageIndex)
-	if (pageIndex !== 'mainMenuFront') {
-		// textContent.style.justifyContent = 'flex-end'
-	}
-	// textContent.style.justifyContent = 'flex-start'
+	console.log(pageIndex)
+
 	buttonGridContainer = document.createElement('div')
 	buttonGridContainer.classList.add('buttonGridContainer')
 
@@ -1117,11 +1109,58 @@ function createContent(obj, parent) {
 	// buttonGridContainer.appendChild(buttonGrid)
 
 	showCont.appendChild(buttonGridContainer)
-
 	showCont.appendChild(centerContainerMade)
 
 	centerContainerMade.appendChild(textContainerMade)
 	textContainerMade.appendChild(firstPage)
+
+	const groupButton = document.createElement('button')
+	const individualButton = document.createElement('button')
+	const subMiniVideo = document.createElement('video')
+	function setButton(e) {
+		groupButton.classList.remove('subMiniButtonAct')
+		individualButton.classList.remove('subMiniButtonAct')
+
+		e.target.classList.add('subMiniButtonAct')
+		if (e.target === groupButton) {
+			subMiniVideo.src = '/assets/vbs/4kU/4kUSub1.mp4'
+		} else if (e.target === individualButton) {
+			subMiniVideo.src = '/assets/vbs/4kU/4kUSub2.mp4'
+		}
+		console.log(e)
+	}
+	if (pageIndex === '4kU') {
+		const subContainer = document.createElement('div')
+		const subButtonContainer = document.createElement('div')
+		subButtonContainer.classList.add('subButtonContainer')
+		subContainer.classList.add('subContainer')
+
+		groupButton.textContent = 'GROUP MODE'
+		individualButton.textContent = 'INDIVIDUAL MODE'
+		groupButton.classList.add('subMiniButton')
+		groupButton.classList.add('subMiniButtonAct')
+
+		groupButton.addEventListener('click', setButton)
+		individualButton.addEventListener('click', setButton)
+
+		individualButton.classList.add('subMiniButton')
+
+		subMiniVideo.muted = true
+		subMiniVideo.setAttribute('playsinline', 'playsinline')
+		subMiniVideo.controls = false
+		subMiniVideo.loop = true
+		subMiniVideo.preload = 'auto' // Set preload to 'auto'
+		subMiniVideo.autoplay = true
+		subMiniVideo.src = '/assets/vbs/4kU/4kUSub1.mp4'
+		subMiniVideo.classList.add('subMiniVideo')
+		firstPage.appendChild(subContainer)
+
+		subButtonContainer.appendChild(groupButton)
+		subButtonContainer.appendChild(individualButton)
+		subContainer.appendChild(subButtonContainer)
+		subContainer.appendChild(subMiniVideo)
+	}
+
 	createBackButton()
 	if (pageIndex === 'mainMenuFront') {
 		// createBackButton()
@@ -1193,21 +1232,24 @@ function createContent(obj, parent) {
 						loader.classList.add('short-vanish')
 						loader.style.zIndex = '-200'
 						clearInterval(clearcheck)
-						// console.log('creando contenido')
-						// console.log(parent)
+
 						globalParent = parent
 
 						createContent(buttonContent[parent].boxInfo[pageIndex], parent)
-						// textContent.style.height = '100%'
+
 						video2.classList.add('short-vanish')
+						video2.classList.remove('show')
 						subVideo1.style.opacity = 1
 						setTimeout(() => {
-							subVideo1.play()
+							setTimeout(() => {
+								subVideo1.play()
+							}, 500)
+
 							subVideo1.addEventListener('ended', () => {
 								// console.log('subVideo1 ending')
 
 								animations()
-								InterpolateVideo(video2, subVideo1, subVideo2)
+								InterpolateVideo(subVideo1, subVideo1, subVideo2)
 
 								HideShowCont()
 							})
@@ -1379,12 +1421,14 @@ function exitRotation() {
 }
 
 function backButtonFunction() {
+	console.log('backbuttonfunction')
 	ArreglarLineas()
 
 	buttonGridContainer.style.pointerEvents = 'none'
 	backButton.style.pointerEvents = 'none'
 
 	InterpolateVideo(video2, video2, video3)
+	video2.classList.remove('show')
 	HideShowCont()
 	loop.style.zIndex = '-5'
 	loop.currentTime = 0
@@ -1456,6 +1500,7 @@ function backButtonFunctionFromBack() {
 }
 
 function backButtonFunctionFront() {
+	console.log('backbuttonfunctionfront')
 	ArreglarLineas()
 
 	backButton.style.pointerEvents = 'none'
@@ -1819,25 +1864,29 @@ mainMenuB.forEach((e, i) => {
 					video1.style.opacity = 1
 
 					setTimeout(() => {
-						video1.play()
+						setTimeout(() => {
+							video1.play()
+						}, 500)
+
 						video1.addEventListener('ended', () => {
 							animations()
 
 							InterpolateVideo(loop, video1, video2)
-							if (
-								dataId[i] === 'whyF' ||
-								dataId[i] === 'in-houseT' ||
-								dataId[i] === 'useC'
-							) {
-								// console.log(video2, video3)
-								video2.loop = false
-								video2.addEventListener('ended', () => {
-									// console.log('se ha hecho ')
-
-									backButtonFunction()
-								})
-							}
 							HideShowCont()
+
+							// if (
+							// 	dataId[i] === 'whyF' ||
+							// 	dataId[i] === 'in-houseT' ||
+							// 	dataId[i] === 'useC'
+							// ) {
+							// 	// console.log(video2, video3)
+							// 	video2.loop = false
+							// 	video2.addEventListener('ended', () => {
+							// 		// console.log('se ha hecho ')
+
+							// 		backButtonFunction()
+							// 	})
+							// }
 						})
 					}, 0)
 				}

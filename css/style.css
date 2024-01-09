@@ -259,7 +259,44 @@ html {
 	height: 100%;
 	object-fit: contain;
 }
+.subMiniButton {
+	color: black;
+	font-size: 1.5rem;
+	border-radius: 2rem;
+	padding: 1rem 2rem;
+	border-radius: 5rem;
+	border: none;
+	cursor: pointer;
+	font-weight: bold;
+	background-color: #8c8c8c;
+}
+.subMiniButtonAct {
+	background-color: white;
+}
+.subMiniVideo {
+	width: 40%;
+	height: 27.5rem;
+	border: solid white 0.5rem;
+	transform-origin: center;
+}
+.subButtonContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 4.5rem;
+	z-index: 10;
+}
+.subContainer {
+	z-index: 10;
+	width: 100%;
+	display: flex;
+	gap: 6rem;
+	align-items: center;
+	position: absolute;
+	left: 13%;
+	top: 70%;
 
+	pointer-events: all;
+}
 .disabled > div > div > div > div > button {
 	pointer-events: none;
 }
