@@ -879,7 +879,7 @@ function createSubVideos(source1, source2, source3) {
 		) {
 			subVideo2.loop = true
 		}
-
+		subVideo2.loop = true
 		subVideo2.muted = true
 		subVideo2.setAttribute('playsinline', 'playsinline')
 		subVideo2.controls = false
@@ -1123,13 +1123,14 @@ function createContent(obj, parent) {
 
 		e.target.classList.add('subMiniButtonAct')
 		if (e.target === groupButton) {
-			subMiniVideo.src = '/assets/vbs/4kU/4kUSub1.mp4'
+			subMiniVideo.src = 'assets/vbs/4kU/4kUSub1.mp4'
 		} else if (e.target === individualButton) {
-			subMiniVideo.src = '/assets/vbs/4kU/4kUSub2.mp4'
+			subMiniVideo.src = 'assets/vbs/4kU/4kUSub2.mp4'
 		}
 		console.log(e)
 	}
-	if (pageIndex === '4kU') {
+	if (pageIndex === '4kU' && parent === 'vbs') {
+		console.log(parent)
 		const subContainer = document.createElement('div')
 		const subButtonContainer = document.createElement('div')
 		subButtonContainer.classList.add('subButtonContainer')
@@ -1151,7 +1152,7 @@ function createContent(obj, parent) {
 		subMiniVideo.loop = true
 		subMiniVideo.preload = 'auto' // Set preload to 'auto'
 		subMiniVideo.autoplay = true
-		subMiniVideo.src = '/assets/vbs/4kU/4kUSub1.mp4'
+		subMiniVideo.src = 'assets/vbs/4kU/4kUSub1.mp4'
 		subMiniVideo.classList.add('subMiniVideo')
 		firstPage.appendChild(subContainer)
 
@@ -1192,6 +1193,7 @@ function createContent(obj, parent) {
 
 	const subButtons = document.querySelectorAll('.subButton')
 	// console.log(subButtons)
+
 	subButtons.forEach((element, i) => {
 		element.addEventListener('click', function () {
 			HideShowCont()
@@ -1246,10 +1248,38 @@ function createContent(obj, parent) {
 							}, 500)
 
 							subVideo1.addEventListener('ended', () => {
-								// console.log('subVideo1 ending')
-
 								animations()
 								InterpolateVideo(subVideo1, subVideo1, subVideo2)
+
+								let idleTime = 0
+								const idleThreshold = 120000 // Adjust this value based on your requirements (in milliseconds)
+
+								function resetIdleTime() {
+									idleTime = 0
+								}
+
+								function handleIdle() {
+									// Your function to be called when the mouse is idle
+									backButtonFunctionFront()
+									document.removeEventListener('mousemove', checkIdle)
+									document.removeEventListener('mousemove', resetIdleTime)
+									clearInterval(intervalId)
+								}
+
+								function checkIdle() {
+									idleTime += 100
+									console.log(idleTime)
+									if (idleTime >= idleThreshold) {
+										handleIdle()
+									}
+								}
+
+								// Add event listeners
+								document.addEventListener('mousemove', resetIdleTime)
+								document.addEventListener('mousemove', checkIdle)
+
+								// Initial setup
+								intervalId = setInterval(checkIdle, 100) // Check every 100 milliseconds
 
 								HideShowCont()
 							})

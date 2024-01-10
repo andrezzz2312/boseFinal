@@ -326,6 +326,7 @@ video::slotted::-webkit-media-controls-container {
 	font-weight: bold;
 	display: flex;
 	cursor: pointer;
+	border: none;
 }
 .subButton {
 	position: relative;
