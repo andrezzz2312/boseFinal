@@ -904,6 +904,24 @@ function createSubVideos(source1, source2, source3) {
 		subVideo3Container.appendChild(subVideo3)
 	}
 }
+let idleTime = 0
+const idleThreshold = 120000
+function resetIdleTime() {
+	idleTime = 0
+}
+
+function handleIdle() {
+	// Your function to be called when the mouse is idle
+	backButtonFunctionFront()
+}
+
+function checkIdle() {
+	idleTime += 100
+	console.log(idleTime)
+	if (idleTime >= idleThreshold) {
+		handleIdle()
+	}
+}
 
 // Create the content storaged in showCont div / Left and Top position of the container div, label title and content of the paragraph
 function createContent(obj, parent) {
@@ -1251,28 +1269,7 @@ function createContent(obj, parent) {
 								animations()
 								InterpolateVideo(subVideo1, subVideo1, subVideo2)
 
-								let idleTime = 0
-								const idleThreshold = 120000 // Adjust this value based on your requirements (in milliseconds)
-
-								function resetIdleTime() {
-									idleTime = 0
-								}
-
-								function handleIdle() {
-									// Your function to be called when the mouse is idle
-									backButtonFunctionFront()
-									document.removeEventListener('mousemove', checkIdle)
-									document.removeEventListener('mousemove', resetIdleTime)
-									clearInterval(intervalId)
-								}
-
-								function checkIdle() {
-									idleTime += 100
-									console.log(idleTime)
-									if (idleTime >= idleThreshold) {
-										handleIdle()
-									}
-								}
+								// Adjust this value based on your requirements (in milliseconds)
 
 								// Add event listeners
 								document.addEventListener('mousemove', resetIdleTime)
@@ -1530,6 +1527,10 @@ function backButtonFunctionFromBack() {
 }
 
 function backButtonFunctionFront() {
+	document.removeEventListener('mousemove', checkIdle)
+	document.removeEventListener('mousemove', resetIdleTime)
+	intervalId && clearInterval(intervalId)
+
 	console.log('backbuttonfunctionfront')
 	ArreglarLineas()
 
