@@ -913,6 +913,7 @@ function resetIdleTime() {
 
 function handleIdle2() {
 	// Your function to be called when the mouse is idle
+
 	backButtonFunction()
 	resetIdleTime()
 	document.removeEventListener('mousemove', checkIdle)
@@ -921,12 +922,12 @@ function handleIdle2() {
 }
 function handleIdle6() {
 	// Your function to be called when the mouse is idle
+	checkBack = true
 	backButtonFunctionFront()
 	resetIdleTime()
 	document.removeEventListener('mousemove', checkIdle)
 	document.removeEventListener('mousemove', resetIdleTime)
 	intervalId && clearInterval(intervalId)
-	checkBack = true
 }
 // function handleIdle2() {
 // 	// Your function to be called when the mouse is idle
@@ -1250,7 +1251,7 @@ function backButtonFunction() {
 	document.removeEventListener('mousemove', checkIdle)
 	document.removeEventListener('mousemove', resetIdleTime)
 	intervalId && clearInterval(intervalId)
-	console.log(globalParent)
+
 	console.log('backbuttonfunction')
 	ArreglarLineas()
 
@@ -1293,7 +1294,7 @@ function backButtonFunction() {
 
 function backButtonFunctionFront() {
 	intervalId && clearInterval(intervalId)
-
+	console.log(checkBack)
 	ArreglarLineas()
 
 	backButton.style.pointerEvents = 'none'
@@ -1308,6 +1309,7 @@ function backButtonFunctionFront() {
 		if (checkBack) {
 			console.log('backer')
 			backButtonFunction()
+			checkBack = false
 		}
 		setTimeout(() => {
 			subVideo3.classList.add('short-vanish')
