@@ -905,21 +905,34 @@ function createSubVideos(source1, source2, source3) {
 	}
 }
 let idleTime = 0
-const idleThreshold = 120000
+const idleThreshold = 5000
 function resetIdleTime() {
 	idleTime = 0
 }
 
-function handleIdle() {
+function handleIdle6() {
 	// Your function to be called when the mouse is idle
 	backButtonFunctionFront()
+	resetIdleTime()
 }
+// function handleIdle2() {
+// 	// Your function to be called when the mouse is idle
+// 	backButtonFunction()
+// 	resetIdleTime()
+// }
 
 function checkIdle() {
 	idleTime += 100
 	console.log(idleTime)
 	if (idleTime >= idleThreshold) {
-		handleIdle()
+		if (globalParent === 'vbs' || globalParent === 'vb1') {
+			handleIdle6()
+		} else {
+			handleIdle2()
+		}
+
+		console.log(globalParent)
+		console.log(pageIndex)
 	}
 }
 
@@ -933,7 +946,7 @@ function createContent(obj, parent) {
 	pContent2 = obj.content2
 	subTitle = obj.subTitle
 	inputButtonGrid = obj.inputButtonGrid
-
+	globalParent = parent
 	delayInput = obj.delay
 
 	const centerContainerMade = document.createElement('div')
@@ -951,180 +964,6 @@ function createContent(obj, parent) {
 
 	buttonGridContainer = document.createElement('div')
 	buttonGridContainer.classList.add('buttonGridContainer')
-
-	// if (labelTitle) {
-	// 	pCont = document.createElement('div')
-	// 	pCont.classList.add('pCont')
-	// 	if (pageIndex === 'snaparoundC') {
-	// 		pCont.style.paddingBottom = '40%'
-	// 	}
-	// 	if (pageIndex === 'protraceT') {
-	// 		pCont.style.paddingBottom = '30%'
-	// 	}
-
-	// 	titleH2 = document.createElement('span')
-	// 	titleH2.classList.add('header')
-	// 	titleH2.style.fontSize = globalBigTitleFontvar
-	// 	title1 = document.createElement('span')
-	// 	title1.classList.add('title1')
-	// 	title1.textContent = labelTitle
-	// 	if (pageIndex !== 'mainMenuFront') {
-	// 		createBackButton()
-	// 		firstPage.style.flexDirection = 'row'
-	// 	}
-
-	// 	titleH2.appendChild(title1)
-	// 	if (subTitle) {
-	// 		createdSubTitle = document.createElement('span')
-	// 		createdSubTitle.classList.add('createdSubtitle')
-	// 		createdSubTitle.textContent = subTitle
-	// 		createdSubTitle.style.fontWeight = 'bold'
-	// 		createdSubTitle.style.fontSize = globalFontvar
-	// 		titleH2.appendChild(createdSubTitle)
-	// 	}
-	// 	pCont.appendChild(titleH2)
-	// 	// el unico vivo
-
-	// 	if (Array.isArray(pContent)) {
-	// 		paragraph = document.createElement('p')
-	// 		if (delayInput) {
-	// 			delay = delayInput
-	// 		}
-	// 		if (pageIndex !== 'durableW' && pageIndex !== 'protraceT') {
-	// 			paragraph.style.gap = '4vh'
-	// 			paragraph.style.marginTop = '4vh'
-	// 		}
-	// 		// console.log(currentButton)
-	// 		pContent.forEach((e) => {
-	// 			if (Number.isInteger(e)) {
-	// 				elementContainer = document.createElement('span')
-	// 				elementContainer.classList.add('elementContainer', 'imageContainer')
-	// 				for (let i = 0; i < e; i++) {
-	// 					let image = document.createElement('img')
-	// 					image.classList.add('tableImg')
-	// 					if (
-	// 						currentButton === 'tourlock18' ||
-	// 						currentButton === 'tourlock182' ||
-	// 						currentButton === 'circlelockSo' ||
-	// 						currentButton === 'circlelockSo2'
-	// 					) {
-	// 						image.src = `assets/${parent}/${currentButton}/${currentButton}${
-	// 							i + 1
-	// 						}.png`
-	// 						if (isMobile) {
-	// 							image.style.width = '20em'
-	// 						} else {
-	// 							image.style.width = '24em'
-	// 						}
-	// 					} else {
-	// 						image.src = `assets/${parent}/${pageIndex}/${pageIndex}${
-	// 							i + 1
-	// 						}.png`
-	// 						if (isMobile) {
-	// 							image.style.width = '6em'
-	// 						} else {
-	// 							image.style.width = '6em'
-	// 						}
-	// 					}
-
-	// 					elementContainer.appendChild(image)
-	// 					paragraph.appendChild(elementContainer)
-	// 					pCont.appendChild(paragraph)
-	// 				}
-	// 			} else {
-	// 				elementContainer = document.createElement('span')
-	// 				elementContainer.classList.add('elementContainer')
-	// 				elementContainer.setAttribute('id', 'pCont1')
-
-	// 				// icon = document.createElement('img')
-	// 				// icon.src = 'assets/icons/bp.png'
-	// 				// icon.style.width = '1.3em'
-	// 				icon = document.createElement('span')
-	// 				icon.classList.add('icon')
-	// 				icon.textContent = `\u2022`
-	// 				icon.style.fontSize = bodyFontvar
-
-	// 				element = document.createElement('span')
-	// 				element.textContent = e
-	// 				element.style.fontSize = bodyFontvar
-	// 				if (pageIndex !== 'durableW') {
-	// 					elementContainer.appendChild(icon)
-	// 				}
-
-	// 				elementContainer.appendChild(element)
-	// 				paragraph.appendChild(elementContainer)
-	// 				pCont.appendChild(paragraph)
-	// 			}
-	// 		})
-	// 	}
-
-	// 	if (pContent2) {
-	// 		if (Array.isArray(pContent2)) {
-	// 			if (delayInput) {
-	// 				delay = delayInput
-	// 			}
-	// 			// console.log(currentButton)
-	// 			pContent2.forEach((e) => {
-	// 				if (Number.isInteger(e)) {
-	// 					elementContainer = document.createElement('span')
-	// 					elementContainer.classList.add('elementContainer', 'imageContainer')
-	// 					for (let i = 0; i < e; i++) {
-	// 						let image = document.createElement('img')
-	// 						image.classList.add('extraImg')
-	// 						if (
-	// 							currentButton === 'tourlock18' ||
-	// 							currentButton === 'tourlock182' ||
-	// 							currentButton === 'circlelockSo' ||
-	// 							currentButton === 'circlelockSo2'
-	// 						) {
-	// 							image.src = `assets/${parent}/${currentButton}/${currentButton}${
-	// 								i + 1
-	// 							}.png`
-	// 							if (isMobile) {
-	// 								image.style.width = '20em'
-	// 							} else {
-	// 								image.style.width = '25em'
-	// 							}
-	// 						} else {
-	// 							image.src = `assets/${parent}/${pageIndex}/${pageIndex}${
-	// 								i + 1
-	// 							}.png`
-	// 							if (isMobile) {
-	// 								image.style.width = '8em'
-	// 							} else {
-	// 								image.style.width = '6em'
-	// 							}
-	// 						}
-
-	// 						elementContainer.appendChild(image)
-	// 						paragraph.appendChild(elementContainer)
-	// 					}
-	// 				} else {
-	// 					// console.log('else')
-	// 					elementContainer = document.createElement('span')
-	// 					elementContainer.classList.add('elementContainer')
-	// 					elementContainer.setAttribute('id', 'pCont2')
-	// 					icon = document.createElement('img')
-	// 					icon.src = 'assets/icons/bp.png'
-	// 					icon.style.width = '1.3em'
-
-	// 					element = document.createElement('span')
-	// 					element.textContent = e
-	// 					element.style.fontSize = globalFontvar
-	// 					elementContainer.appendChild(icon)
-	// 					elementContainer.appendChild(element)
-	// 					paragraph.appendChild(elementContainer)
-	// 					pCont.appendChild(paragraph)
-	// 				}
-	// 			})
-	// 		}
-	// 	}
-
-	// 	// textContent.appendChild(pCont)
-	// }
-
-	// firstPage.appendChild(textContent)
-	// buttonGridContainer.appendChild(buttonGrid)
 
 	showCont.appendChild(buttonGridContainer)
 	showCont.appendChild(centerContainerMade)
@@ -1448,6 +1287,7 @@ function exitRotation() {
 }
 
 function backButtonFunction() {
+	console.log(globalParent)
 	console.log('backbuttonfunction')
 	ArreglarLineas()
 
@@ -1530,7 +1370,7 @@ function backButtonFunctionFront() {
 	document.removeEventListener('mousemove', checkIdle)
 	document.removeEventListener('mousemove', resetIdleTime)
 	intervalId && clearInterval(intervalId)
-
+	resetIdleTime()
 	console.log('backbuttonfunctionfront')
 	ArreglarLineas()
 
