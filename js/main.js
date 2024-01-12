@@ -905,15 +905,28 @@ function createSubVideos(source1, source2, source3) {
 	}
 }
 let idleTime = 0
-const idleThreshold = 5000
+const idleThreshold = 120000
+let checkBack = false
 function resetIdleTime() {
 	idleTime = 0
 }
 
+function handleIdle2() {
+	// Your function to be called when the mouse is idle
+	backButtonFunction()
+	resetIdleTime()
+	document.removeEventListener('mousemove', checkIdle)
+	document.removeEventListener('mousemove', resetIdleTime)
+	intervalId && clearInterval(intervalId)
+}
 function handleIdle6() {
 	// Your function to be called when the mouse is idle
 	backButtonFunctionFront()
 	resetIdleTime()
+	document.removeEventListener('mousemove', checkIdle)
+	document.removeEventListener('mousemove', resetIdleTime)
+	intervalId && clearInterval(intervalId)
+	checkBack = true
 }
 // function handleIdle2() {
 // 	// Your function to be called when the mouse is idle
@@ -925,10 +938,10 @@ function checkIdle() {
 	idleTime += 100
 	console.log(idleTime)
 	if (idleTime >= idleThreshold) {
-		if (globalParent === 'vbs' || globalParent === 'vb1') {
-			handleIdle6()
-		} else {
+		if (pageIndex === 'mainMenuFront') {
 			handleIdle2()
+		} else {
+			handleIdle6()
 		}
 
 		console.log(globalParent)
@@ -948,6 +961,7 @@ function createContent(obj, parent) {
 	inputButtonGrid = obj.inputButtonGrid
 	globalParent = parent
 	delayInput = obj.delay
+	console.log(globalParent)
 
 	const centerContainerMade = document.createElement('div')
 	centerContainerMade.classList.add('centerContainer')
@@ -1053,6 +1067,7 @@ function createContent(obj, parent) {
 
 	subButtons.forEach((element, i) => {
 		element.addEventListener('click', function () {
+			intervalId && clearInterval(intervalId)
 			HideShowCont()
 
 			setTimeout(() => {
@@ -1111,6 +1126,7 @@ function createContent(obj, parent) {
 								// Adjust this value based on your requirements (in milliseconds)
 
 								// Add event listeners
+
 								document.addEventListener('mousemove', resetIdleTime)
 								document.addEventListener('mousemove', checkIdle)
 
@@ -1230,6 +1246,10 @@ function setFontSizes() {
 }
 
 function backButtonFunction() {
+	resetIdleTime()
+	document.removeEventListener('mousemove', checkIdle)
+	document.removeEventListener('mousemove', resetIdleTime)
+	intervalId && clearInterval(intervalId)
 	console.log(globalParent)
 	console.log('backbuttonfunction')
 	ArreglarLineas()
@@ -1272,11 +1292,8 @@ function backButtonFunction() {
 }
 
 function backButtonFunctionFront() {
-	document.removeEventListener('mousemove', checkIdle)
-	document.removeEventListener('mousemove', resetIdleTime)
 	intervalId && clearInterval(intervalId)
-	resetIdleTime()
-	console.log('backbuttonfunctionfront')
+
 	ArreglarLineas()
 
 	backButton.style.pointerEvents = 'none'
@@ -1284,15 +1301,19 @@ function backButtonFunctionFront() {
 	InterpolateVideo(subVideo2, subVideo2, subVideo3)
 	HideShowCont()
 	subVideo3.addEventListener('ended', () => {
+		intervalId = setInterval(checkIdle, 100)
 		video2.classList.remove('short-vanish')
 		video2.classList.add('show')
 		video2.play()
+		if (checkBack) {
+			console.log('backer')
+			backButtonFunction()
+		}
 		setTimeout(() => {
 			subVideo3.classList.add('short-vanish')
 		}, 500)
 
 		showCont.innerHTML = ''
-		// console.log('back from back')
 
 		video2.currentTime = 0
 		pageIndex = 'mainMenuFront'
@@ -1307,50 +1328,6 @@ function backButtonFunctionFront() {
 			subVideo2.remove()
 			subVideo3.remove()
 		}, 500)
-	})
-}
-// function backButtonFunctionFront() {
-// 	ArreglarLineas()
-
-// 	// console.log('backbuttonfunctionfront')
-// 	backButton.style.pointerEvents = 'none'
-
-// 	InterpolateVideo(subVideo2, subVideo2, subVideo3)
-// 	HideShowCont()
-// 	subVideo3.addEventListener('ended', () => {
-// 		subVideo3.classList.add('short-vanish')
-// 		video2.classList.remove('short-vanish')
-// 		showCont.innerHTML = ''
-// 		// console.log('back from back')
-
-// 		video2.currentTime = 0
-// 		pageIndex = 'mainMenuFront'
-// 		// console.log(currentButton)
-// 		createContent(buttonContent[currentButton], currentButton)
-
-// 		animations()
-
-// 		HideShowCont()
-// 		subVideo1.remove()
-// 		subVideo2.remove()
-// 		subVideo3.remove()
-// 	})
-// }
-function backButtonFunctionBack() {
-	ArreglarLineas()
-	backButton.style.pointerEvents = 'none'
-
-	InterpolateVideo(subVideo2, subVideo2, subVideo3)
-	HideShowCont()
-	subVideo3.addEventListener('ended', () => {
-		subVideo3.classList.add('short-vanish')
-		subVideoTurn.classList.remove('short-vanish')
-		showCont.innerHTML = ''
-
-		pageIndex = 'mainMenuBack'
-		createContent(buttonContent[dataId[1]], dataId[1])
-
-		HideShowCont()
 	})
 }
 
@@ -1648,21 +1625,14 @@ mainMenuB.forEach((e, i) => {
 							animations()
 
 							InterpolateVideo(loop, video1, video2)
+							setTimeout(() => {
+								document.addEventListener('mousemove', resetIdleTime)
+								document.addEventListener('mousemove', checkIdle)
+							}, 500)
+
+							// Initial setup
+							intervalId = setInterval(checkIdle, 100)
 							HideShowCont()
-
-							// if (
-							// 	dataId[i] === 'whyF' ||
-							// 	dataId[i] === 'in-houseT' ||
-							// 	dataId[i] === 'useC'
-							// ) {
-							// 	// console.log(video2, video3)
-							// 	video2.loop = false
-							// 	video2.addEventListener('ended', () => {
-							// 		// console.log('se ha hecho ')
-
-							// 		backButtonFunction()
-							// 	})
-							// }
 						})
 					}, 0)
 				}
