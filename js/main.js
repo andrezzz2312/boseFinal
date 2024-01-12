@@ -1229,63 +1229,6 @@ function setFontSizes() {
 	}
 }
 
-function createRotation() {
-	// console.log(currentButton)
-	// console.log(pageIndex)
-
-	loader.classList.remove('short-vanish')
-	loader.style.zIndex = '2'
-	initial.style.zIndex = '1'
-	initial.classList.remove('short-vanish')
-
-	HideShowCont()
-	$('#product-reel')
-		.reel(
-			'images',
-			`./assets/${currentButton}/threesixty/${currentButton}_#.jpg`
-		)
-		.bind('loaded', function () {
-			initial.classList.remove('show')
-			initial.classList.add('short-vanish')
-			loader.style.zIndex = '-100'
-			setTimeout(() => {
-				initial.style.zIndex = '-200'
-			}, 400)
-		})
-
-	rotation.classList.toggle('show')
-	rotation.classList.toggle('hidden')
-	createBackButton('rotationPage')
-	window.addEventListener('resize', resizeRotation)
-
-	setTimeout(() => {
-		showCont.innerHTML = ''
-	}, 300)
-}
-
-function resizeRotation() {
-	const rotationBackButton = document.querySelector('#rotation_backButton')
-	if (rotationBackButton) {
-		rotationBackButton.remove()
-	}
-	ArreglarLineas()
-	createBackButton('rotationPage')
-}
-
-function exitRotation() {
-	ArreglarLineas()
-	backButtonRotation.style.pointerEvents = 'none'
-
-	// console.log('remove show')
-	rotation.classList.remove('show')
-	rotation.classList.add('short-vanish')
-	createContent(buttonContent[currentButton], currentButton)
-	animations()
-
-	HideShowCont()
-	window.removeEventListener('resize', resizeRotation)
-}
-
 function backButtonFunction() {
 	console.log(globalParent)
 	console.log('backbuttonfunction')
@@ -1324,44 +1267,6 @@ function backButtonFunction() {
 			subVideoTurn = ''
 		}
 
-		showCont.innerHTML = ''
-	})
-}
-function backButtonFunctionFromBack() {
-	// console.log('working')
-	ArreglarLineas()
-
-	subVideoTurn.play()
-	HideShowCont()
-	loop.style.zIndex = '-5'
-	loop.currentTime = 0
-	loop.pause()
-	subVideoTurn.addEventListener('ended', () => {
-		// console.log('subVideoTurn ending')
-		loop.classList.remove('short-vanish')
-		loop.classList.add('show')
-
-		setTimeout(() => {
-			loop.play()
-		}, 0)
-		subVideoTurn.classList.add('short-vanish')
-		// console.log(pageIndex)
-		loop.style.zIndex = '-1'
-		if (subVideo1) {
-			subVideo1.remove()
-			subVideo2.remove()
-			subVideo3.remove()
-		}
-		if (subVideoBackLoop) {
-			subVideoBackLoop.remove()
-			subVideoTurn.remove()
-			subVideoBackLoop = ''
-			subVideoTurn = ''
-		}
-		video1.remove()
-		video2.remove()
-		video3.remove()
-		HideShowMainButtons()
 		showCont.innerHTML = ''
 	})
 }
