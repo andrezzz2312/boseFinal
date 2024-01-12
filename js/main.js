@@ -529,11 +529,11 @@ const rotationContent = {
 		'https://rotation.marketscale.com/Companies/BoonEdam/TriLock60/TriLock60.spin?fullscreen=false',
 }
 // Display fullscreen button
-if (!isMobile) {
-	fullscreen_button.style.display = 'none'
-} else if (isIOS) {
-	fullscreen_button.style.display = 'none'
-}
+// if (!isMobile) {
+// 	fullscreen_button.style.display = 'none'
+// } else if (isIOS) {
+// 	fullscreen_button.style.display = 'none'
+// }
 
 function createButtons(e, i, buttonContainer) {
 	// const centerContainer = document.createElement('div')
@@ -1293,8 +1293,9 @@ function backButtonFunction() {
 }
 
 function backButtonFunctionFront() {
+	console.log('backButtonFunctionFront()')
 	intervalId && clearInterval(intervalId)
-	console.log(checkBack)
+
 	ArreglarLineas()
 
 	backButton.style.pointerEvents = 'none'
@@ -1306,13 +1307,14 @@ function backButtonFunctionFront() {
 		video2.classList.remove('short-vanish')
 		video2.classList.add('show')
 		video2.play()
-		if (checkBack) {
-			console.log('backer')
-			backButtonFunction()
-			checkBack = false
-		}
+
 		setTimeout(() => {
 			subVideo3.classList.add('short-vanish')
+			if (checkBack) {
+				console.log('backer')
+				backButtonFunction()
+				checkBack = false
+			}
 		}, 500)
 
 		showCont.innerHTML = ''
@@ -1320,11 +1322,14 @@ function backButtonFunctionFront() {
 		video2.currentTime = 0
 		pageIndex = 'mainMenuFront'
 		// console.log(currentButton)
-		createContent(buttonContent[currentButton], currentButton)
+		if (!checkBack) {
+			createContent(buttonContent[currentButton], currentButton)
+		}
 
 		animations()
 
 		HideShowCont()
+
 		setTimeout(() => {
 			subVideo1.remove()
 			subVideo2.remove()
@@ -1508,23 +1513,23 @@ window.addEventListener('resize', function () {
 ////////// Event Listeners for the main buttons //////////
 
 // Event listener for fullscreen button click
-fullscreen_button.addEventListener('click', function (e) {
-	if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-		// Enter fullscreen mode
-		if (mainContainer.requestFullscreen) {
-			mainContainer.requestFullscreen()
-		} else if (mainContainer.webkitRequestFullscreen) {
-			mainContainer.webkitRequestFullscreen()
-		}
-	} else {
-		// Exit fullscreen mode
-		if (document.exitFullscreen) {
-			document.exitFullscreen()
-		} else if (document.webkitExitFullscreen) {
-			document.webkitExitFullscreen()
-		}
-	}
-})
+// fullscreen_button.addEventListener('click', function (e) {
+// 	if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+// 		// Enter fullscreen mode
+// 		if (mainContainer.requestFullscreen) {
+// 			mainContainer.requestFullscreen()
+// 		} else if (mainContainer.webkitRequestFullscreen) {
+// 			mainContainer.webkitRequestFullscreen()
+// 		}
+// 	} else {
+// 		// Exit fullscreen mode
+// 		if (document.exitFullscreen) {
+// 			document.exitFullscreen()
+// 		} else if (document.webkitExitFullscreen) {
+// 			document.webkitExitFullscreen()
+// 		}
+// 	}
+// })
 
 mainMenuB.forEach((e, i) => {
 	dataId[i] = e.dataset.id
@@ -1643,21 +1648,21 @@ mainMenuB.forEach((e, i) => {
 	})
 })
 // Event listener for fullscreen change
-document.addEventListener('fullscreenchange', function () {
-	if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-		// The document is not in fullscreen mode
-		expand.classList.remove('disabledb')
-		contract.classList.add('disabledb')
+// document.addEventListener('fullscreenchange', function () {
+// 	if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+// 		// The document is not in fullscreen mode
+// 		expand.classList.remove('disabledb')
+// 		contract.classList.add('disabledb')
 
-		// Perform actions when exiting fullscreen mode
-	} else {
-		// The document is in fullscreen mode
-		expand.classList.add('disabledb')
-		contract.classList.remove('disabledb')
+// 		// Perform actions when exiting fullscreen mode
+// 	} else {
+// 		// The document is in fullscreen mode
+// 		expand.classList.add('disabledb')
+// 		contract.classList.remove('disabledb')
 
-		// Perform actions when entering fullscreen mode
-	}
-})
+// 		// Perform actions when entering fullscreen mode
+// 	}
+// })
 
 // Check when the spinner is fully loaded
 var SirvOptions = {
