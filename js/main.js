@@ -1044,10 +1044,10 @@ function createContent(obj, parent) {
 		const buttonContainer = document.createElement('div')
 		console.log(parent)
 		if (parent === 'vb1') {
-			buttonContainer.style.top = '52%'
+			buttonContainer.style.top = '57%'
 		}
 		if (parent === 'vbs') {
-			buttonContainer.style.top = '52%'
+			buttonContainer.style.top = '57%'
 		}
 		centerContainer.classList.add('centerContainer')
 		buttonContainer.classList.add('buttonContainer')
